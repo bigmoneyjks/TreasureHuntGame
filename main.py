@@ -18,4 +18,3 @@ class Player:
     
     def attack(self, enemy, inventory):
         if "Tokarev" in inventory:
-
