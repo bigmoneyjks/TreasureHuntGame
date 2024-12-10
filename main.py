@@ -15,7 +15,6 @@ class Player:
     def heal(self, inventory):
         if "Spiral" in inventory:
             self.hp += random.randint(10,40)
-
         else:
             print("You realise that you don't have a Spiral")
     
