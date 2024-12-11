@@ -9,10 +9,15 @@ class Player:
         self.ess = 0
         
     def pickup(self, item):
-        if len(self.inv) != 8:
+        if len(self.inv) < 8:
             (self.inv).append(item)
         else:
             print(f"You cannot fit {item.name} into your rucksack")
+    
+    def drop(self, item):
+        print(f"You drop {item.name} onto the floor and watch as it is consumed by the ground beneath you")
+        (self.inv).pop(item)
+
     
     def heal(self, inventory):
         if "Spiral" in inventory:
@@ -21,29 +26,49 @@ class Player:
             print("You realise that you don't have a Spiral")
     
     def attack(self, enemy, weapon):
-        if weapon.name == "Tokarev" and weapon.name in self.inv and self.stun == False and enemy.dead == False:
-            print(f"You shot {enemy.name}")
-            enemy.hp -= random.randint(6, 11)
-            weapon.dur -= 1
-        elif weapon.name == "KS-23" and weapon.name in self.inv and self.stun == False and enemy.dead == False:
-            damage = random.randint(12,20)
-            if damage >= 17:
-                print(f"You blast a hole through {enemy.name}")
-                weapon.dur -= 2
-            else:
+        if self.stun == False and enemy.dead == False and weapon.name in self.inv:
+            if weapon.name == "Tokarev":
                 print(f"You shot {enemy.name}")
-        elif weapon.name == "Ruined Axe" and weapon.name in self.inv and self.stun == False and enemy.dead == False:
-            print(f"You hurl the {weapon.name} at the {enemy.name} and slash it")
-            enemy.hp -= random.randint(3, 8)
-        elif weapon.name == "Shiny Shovel" and weapon.name in self.inv and self.stun == False and enemy.dead == False:
-            print(f"You smash {enemy.name} over the head with {weapon.name}")
-            enemy.hp -= random.randint(6,10)
+                enemy.hp -= random.randint(6, 11)
+                weapon.dur -= 1
+            elif weapon.name == "KS-23":
+                damage = random.randint(12,20)
+                if damage >= 17:
+                    print(f"You blast a hole through {enemy.name}")
+                    weapon.dur -= 2
+                else:
+                    print(f"You shot {enemy.name}")
+            elif weapon.name == "Axe":
+                print(f"You hurl the {weapon.name} at the {enemy.name} and slash it")
+                enemy.hp -= random.randint(3, 8)
+            elif weapon.name == "Shovel":
+                print(f"You smash {enemy.name} over the head with {weapon.name}")
+                enemy.hp -= random.randint(6,10)
+        if self.stun == True:
+            print(f"You try to lift your {weapon.name} but it's weight seeminlgy doubled")
+        else:
+            print(f"You rummaged through your rucksack looking for {weapon.name} but could not find it")
 
     def inspect(self):
         print(f"You have {self.hp} health points remaining...")
     
     def move(self, location):
         self.loc = location
+
+class Weapon:
+    def __init__(self, name, durability, maxdurability):
+        self.name = name
+        self.dur = durability
+        self.maxdur = maxdurability
+    
+    def inspect(self):
+        print(f"You inspect your weapon and believe it has {self.dur} uses left in it")
+    
+    def repair(self, player):
+        if "Repair Kit" in player.inv:
+            self.dur = self.maxdur
+        else:
+            print(f"You open your rucksack lookinh for a Repair Kit but realise you never had one in the first place")
 
 class Ghoul:
     def __init__(self):
@@ -157,4 +182,5 @@ class Banshee:
             print(f"The {self.name} stabs your arm and holes remain where it attacked")
             player.hp -= self.dmg
 
-
+player = Player()
+player.drop()
