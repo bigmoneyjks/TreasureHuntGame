@@ -32,10 +32,10 @@ class Player:
                 weapon.dur -= 2
             else:
                 print(f"You shot {enemy.name}")
-        elif weapon.name == "Ruined Axe" and weapon.name in self.inv and self.stun == False and enemy.dead == True:
+        elif weapon.name == "Ruined Axe" and weapon.name in self.inv and self.stun == False and enemy.dead == False:
             print(f"You hurl the {weapon.name} at the {enemy.name} and slash it")
             enemy.hp -= random.randint(3, 8)
-        elif weapon.name == "Shiny Shovel":
+        elif weapon.name == "Shiny Shovel" and weapon.name in self.inv and self.stun == False and enemy.dead == False:
             print(f"You smash {enemy.name} over the head with {weapon.name}")
             enemy.hp -= random.randint(6,10)
 
@@ -150,5 +150,11 @@ class Banshee:
         super = random.randint(1,10)
         if super == 1:
             player.stun = True
+            print(f"The deafening screech from the {self.name} disorientates you as you fall to the ground")
+            print(f"The {self.name} jumps on top of you and claws at your chest vigorously")
+            player.hp -= self.dmg
+        else:
+            print(f"The {self.name} stabs your arm and holes remain where it attacked")
+            player.hp -= self.dmg
 
 
