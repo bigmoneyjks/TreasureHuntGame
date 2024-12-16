@@ -4,7 +4,7 @@ class Player:
     def __init__(self):
         self.hp = 100
         self.stun = False
-        self.inv = ["KS-23"]
+        self.inv = []
         self.loc = "Doctor's House"
         self.ess = 0
         
@@ -26,28 +26,17 @@ class Player:
             print("You realise that you don't have a Spiral")
     
     def attack(self, enemy, weapon):
-        if self.stun == False and enemy.dead == False and weapon.name in self.inv:
-            if weapon.name == "Tokarev":
-                print(f"You shot {enemy.name}")
-                enemy.hp -= random.randint(6, 11)
-                weapon.dur -= 1
-            elif weapon.name == "KS-23":
-                damage = random.randint(12,20)
-                if damage >= 17:
-                    print(f"You blast a hole through {enemy.name}")
-                    weapon.dur -= 2
-                else:
-                    print(f"You shot {enemy.name}")
-            elif weapon.name == "Axe":
-                print(f"You hurl the {weapon.name} at the {enemy.name} and slash it")
-                enemy.hp -= random.randint(3, 8)
-            elif weapon.name == "Shovel":
-                print(f"You smash {enemy.name} over the head with {weapon.name}")
-                enemy.hp -= random.randint(6,10)
-        if self.stun == True:
-            print(f"You try to lift your {weapon.name} but it's weight seeminlgy doubled")
-        else:
+        if weapon not in self.inv:
             print(f"You rummaged through your rucksack looking for {weapon.name} but could not find it")
+            return
+        if self.stun:
+            print(f"You try to lift your {weapon.name} but it's weight seeminlgy doubled")
+            return
+        if enemy.dead:
+            print("")
+            return
+
+        weapon.attackent(enemy)
 
     def inspect(self):
         print(f"You have {self.hp} health points remaining...")
@@ -56,10 +45,13 @@ class Player:
         self.loc = location
 
 class Weapon:
-    def __init__(self, name, durability, maxdurability):
+    def __init__(self, name, durBounds, maxdurability, durusage, dmgBounds, msgFunction):
         self.name = name
-        self.dur = durability
+        self.dur = random.randint(durBounds[0], durBounds[1])
         self.maxdur = maxdurability
+        self.durusage = durusage
+        self.dmgLower, self.dmgUpper = dmgBounds
+        self.message = msgFunction
     
     def inspect(self):
         print(f"You inspect your weapon and believe it has {self.dur} uses left in it")
@@ -69,6 +61,11 @@ class Weapon:
             self.dur = self.maxdur
         else:
             print(f"You open your rucksack lookinh for a Repair Kit but realise you never had one in the first place")
+        
+    def attackent(self, enemy):
+        self.dur -= self.durusage
+        enemy.hp -= random.randint(self.dmgLower, self.dmgUpper)
+        print(self.message(enemy))
 
 class Ghoul:
     def __init__(self):
@@ -183,4 +180,14 @@ class Banshee:
             player.hp -= self.dmg
 
 player = Player()
-player.drop()
+
+Tokarev = Weapon("Tokarev", (45,60), 20, 1, (6,11), lambda enemy: f"You shot {enemy.name}")
+KS = Weapon("KS-23", (30,35), 20, 1, (12,20), lambda enemy: f"You blast a hole through {enemy.name}")
+Axe = Weapon("Axe", (70,87), 20, 1, (3,8), lambda enemy: f"You hurl the Axe at {enemy.name} and slash it")
+Shovel = Weapon("Shovel", , 20, 1, (6,10), lambda enemy: f"You smash {enemy.name} over the head with your Shovel")
+
+ghoul = Ghoul()
+player.pickup(Tokarev)
+player.attack(ghoul, Tokarev)
+print(ghoul.hp)
+
