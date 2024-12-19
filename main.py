@@ -1,5 +1,5 @@
 import random
-
+from PyInquirer import prompt
 
 class Player:
     def __init__(self):
