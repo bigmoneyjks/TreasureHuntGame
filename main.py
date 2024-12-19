@@ -1,5 +1,6 @@
 import random
 
+
 class Player:
     def __init__(self):
         self.hp = 100
@@ -60,7 +61,7 @@ class Weapon:
         if "Repair Kit" in player.inv:
             self.dur = self.maxdur
         else:
-            print(f"You open your rucksack lookinh for a Repair Kit but realise you never had one in the first place")
+            print(f"You open your rucksack looking for a Repair Kit but realise you never had one in the first place")
         
     def attackent(self, enemy):
         self.dur -= self.durusage
@@ -181,13 +182,19 @@ class Banshee:
 
 player = Player()
 
-Tokarev = Weapon("Tokarev", (45,60), 20, 1, (6,11), lambda enemy: f"You shot {enemy.name}")
-KS = Weapon("KS-23", (30,35), 20, 1, (12,20), lambda enemy: f"You blast a hole through {enemy.name}")
-Axe = Weapon("Axe", (70,87), 20, 1, (3,8), lambda enemy: f"You hurl the Axe at {enemy.name} and slash it")
-Shovel = Weapon("Shovel", , 20, 1, (6,10), lambda enemy: f"You smash {enemy.name} over the head with your Shovel")
+Tokarev = Weapon("Tokarev", (30,40), 50, 1, (6,11), lambda enemy: f"You shot {enemy.name}")
+KS = Weapon("KS-23", (30,35), 40, 1, (12,20), lambda enemy: f"You blast a hole through {enemy.name}")
+Axe = Weapon("Axe", (70,87), 100, 1, (3,8), lambda enemy: f"You hurl the Axe at {enemy.name} and slash it")
+Shovel = Weapon("Shovel", (80,90), 100, 1, (6,10), lambda enemy: f"You smash {enemy.name} over the head with your Shovel")
 
 ghoul = Ghoul()
-player.pickup(Tokarev)
-player.attack(ghoul, Tokarev)
-print(ghoul.hp)
+player.pickup(KS)
+player.pickup(Shovel)
+player.pickup(Axe)
+
+while not ghoul.dead:
+    c = input("Which weapon would you like to use?")
+
+    print(f"The Ghoul has {ghoul.hp} hitpoints left")
+    ghoul.checkdead(player)
 
