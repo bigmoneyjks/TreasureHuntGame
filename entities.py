@@ -54,7 +54,6 @@ class Player:
     # def move(self, location):
     #     self.loc = location
 
-
 class Ghoul:
     def __init__(self):
         self.name = "Ghoul"
@@ -73,7 +72,7 @@ class Ghoul:
         
     def fight(self, player):
         while not self.dead or player.hp <= 0:
-            for weapon_name, weapon in player.weapons.items():
+            for weapon in player.weapons.items():
                 print(f"- {weapon}")
             choice = input("Choose your weapon: ").lower()
             weapon = player.weapons.get(choice)
@@ -106,7 +105,7 @@ class Chomper:
     
     def fight(self, player):
         while not self.dead or player.hp <= 0:
-            for weapon_name, weapon in player.weapons.items():
+            for weapon in player.weapons.items():
                 print(f"- {weapon}")
             choice = input("Choose your weapon: ").lower()
             weapon = player.weapons.get(choice)
@@ -135,7 +134,7 @@ class Bats:
     
     def fight(self, player):
         while not self.dead or player.hp <= 0:
-            for weapon_name, weapon in player.weapons.items():
+            for weapon in player.weapons.items():
                 print(f"- {weapon}")
             choice = input("Choose your weapon: ").lower()
             weapon = player.weapons.get(choice)
@@ -170,7 +169,7 @@ class Villager:
         
     def fight(self, player):
         while not self.dead or player.hp <= 0:
-            for weapon_name, weapon in player.weapons.items():
+            for weapon in player.weapons.items():
                 print(f"- {weapon}")
             choice = input("Choose your weapon: ").lower()
             weapon = player.weapons.get(choice)
@@ -205,7 +204,7 @@ class Banshee:
     
     def fight(self, player):
         while not self.dead or player.hp <= 0:
-            for weapon_name, weapon in player.weapons.items():
+            for weapon in player.weapons.items():
                 print(f"- {weapon}")
             choice = input("Choose your weapon: ").lower()
             weapon = player.weapons.get(choice)
@@ -233,7 +232,7 @@ class Stalker:
     
     def fight(self, player):
         while not self.dead or player.hp <= 0:
-            for weapon_name, weapon in player.weapons.items():
+            for weapon in player.weapons.items():
                 print(f"- {weapon}")
             choice = input("Choose your weapon: ").lower()
             weapon = player.weapons.get(choice)
@@ -268,7 +267,7 @@ class Wanderer:
     
     def fight(self, player):
         while not self.dead or player.hp <= 0:
-            for weapon_name, weapon in player.weapons.items():
+            for weapon in player.weapons.items():
                 print(f"- {weapon}")
             choice = input("Choose your weapon: ").lower()
             weapon = player.weapons.get(choice)
@@ -302,7 +301,7 @@ class Wolfmann:
     
     def fight(self, player):
         while not self.dead or player.hp <= 0:
-            for weapon_name, weapon in player.weapons.items():
+            for weapon in player.weapons.items():
                 print(f"- {weapon}")
             choice = input("Choose your weapon: ").lower()
             weapon = player.weapons.get(choice)
@@ -338,7 +337,7 @@ class Captain:
     
     def fight(self, player):
         while not self.dead or player.hp <= 0:
-            for weapon_name, weapon in player.weapons.items():
+            for weapon in player.weapons.items():
                 print(f"- {weapon}")
             choice = input("Choose your weapon: ").lower()
             weapon = player.weapons.get(choice)
@@ -374,7 +373,7 @@ class Leader:
     
     def fight(self, player):
         while not self.dead or player.hp <= 0:
-            for weapon_name, weapon in player.weapons.items():
+            for weapon in player.weapons.items():
                 print(f"- {weapon}")
             choice = input("Choose your weapon: ").lower()
             weapon = player.weapons.get(choice)
@@ -410,7 +409,7 @@ class Doctor:
     
     def fight(self, player):
         while not self.dead or player.hp <= 0:
-            for weapon_name, weapon in player.weapons.items():
+            for weapon in player.weapons.items():
                 print(f"- {weapon}")
             choice = input("Choose your weapon: ").lower()
             weapon = player.weapons.get(choice)
@@ -459,7 +458,7 @@ class Amalgamation:
     
     def fight(self, player):
         while not self.dead or player.hp <= 0:
-            for weapon_name, weapon in player.weapons.items():
+            for weapon in player.weapons.items():
                 print(f"- {weapon}")
             choice = input("Choose your weapon: ").lower()
             weapon = player.weapons.get(choice)
