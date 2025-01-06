@@ -6,6 +6,7 @@ class Player:
         self.hp = 85
         self.stun = False
         self.weapons = {}
+        self.heals = {}
         self.armour = []
         self.ess = 0
         self.loc = []
@@ -20,17 +21,15 @@ class Player:
         print(f"You drop {item.name} onto the floor and watch as it is consumed by the ground beneath you")
         (self.inv).pop(item)
 
-    def heal(self, inventory, item):
-        if item in inventory:
-            self.hp += item.use(self)
-        else:
-            print(f"You realise that you don't have {item.name}")
+    def heal(self, item):
+        if item in self.heals.items():
+            item.use()
     
     def wear(self, armour):
         armour.wear(self)
     
     def attack(self, enemy, weapon):
-        if weapon not in self.inv:
+        if weapon not in self.weapons.items():
             print(f"You rummaged through your rucksack looking for {weapon.name} but could not find it")
             return
         if self.stun:
