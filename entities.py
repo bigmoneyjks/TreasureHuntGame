@@ -2,16 +2,17 @@ import random
 
 class Player:
     def __init__(self):
-        self.maxhp = 100
-        self.hp = 100
+        self.maxhp = 85
+        self.hp = 85
         self.stun = False
-        self.inv = []
-        self.loc = "Doctor's House"
+        self.weapons = {}
+        self.armour = []
         self.ess = 0
+        self.loc = []
         
     def pickup(self, item):
-        if len(self.inv) <= 7:
-            (self.inv).append(item)
+        if len(self.weapons) <= 7:
+            self.weapons[item.name.lower()] = item
         else:
             print(f"You cannot fit {item.name} into your rucksack")
     
@@ -19,12 +20,14 @@ class Player:
         print(f"You drop {item.name} onto the floor and watch as it is consumed by the ground beneath you")
         (self.inv).pop(item)
 
-    
-    def heal(self, inventory):
-        if "Spiral" in inventory:
-            self.hp += random.randint(10,40)
+    def heal(self, inventory, item):
+        if item in inventory:
+            self.hp += item.use(self)
         else:
-            print("You realise that you don't have a Spiral")
+            print(f"You realise that you don't have {item.name}")
+    
+    def wear(self, armour):
+        armour.wear(self)
     
     def attack(self, enemy, weapon):
         if weapon not in self.inv:
@@ -38,13 +41,19 @@ class Player:
             print(f"You stare at {enemy.name}'s lifeless body")
             return
 
-        weapon.attackent(enemy)
+        weapon.use(enemy)
 
     def inspect(self):
         print(f"You have {self.hp} health points remaining...")
     
-    def move(self, location):
-        self.loc = location
+    def move(self, where):
+        self.loc = where.name
+
+
+    
+    # def move(self, location):
+    #     self.loc = location
+
 
 class Ghoul:
     def __init__(self):
@@ -61,6 +70,17 @@ class Ghoul:
         else:
             print(f"The {self.name} swung it's spindly arm at you and scratched you")
             player.hp -= self.dmg
+        
+    def fight(self, player):
+        while not self.dead or player.hp <= 0:
+            for weapon_name, weapon in player.weapons.items():
+                print(f"- {weapon}")
+            choice = input("Choose your weapon: ").lower()
+            weapon = player.weapons.get(choice)
+            weapon.use(self)
+            self.attack(player)
+            print(self.hp)
+            self.checkdead(player)
     
     def checkdead(self, player):
         if self.hp <= 0:
@@ -84,6 +104,17 @@ class Chomper:
             print(f"The {self.name} bit down onto your leg")
             player.hp -= self.dmg
     
+    def fight(self, player):
+        while not self.dead or player.hp <= 0:
+            for weapon_name, weapon in player.weapons.items():
+                print(f"- {weapon}")
+            choice = input("Choose your weapon: ").lower()
+            weapon = player.weapons.get(choice)
+            weapon.use(self)
+            self.attack(player)
+            print(self.hp)
+            self.checkdead(player)
+    
     def checkdead(self, player):
         if self.hp <= 0:
             self.dead = True
@@ -102,6 +133,17 @@ class Bats:
         print(f"The {self.name} claw at your skin")
         player.hp -= self.dmg
     
+    def fight(self, player):
+        while not self.dead or player.hp <= 0:
+            for weapon_name, weapon in player.weapons.items():
+                print(f"- {weapon}")
+            choice = input("Choose your weapon: ").lower()
+            weapon = player.weapons.get(choice)
+            weapon.use(self)
+            self.attack(player)
+            print(self.hp)
+            self.checkdead(player)
+
     def checkdead(self, player):
         if self.hp <= 0:
             self.num -= 1
@@ -125,6 +167,17 @@ class Villager:
         else:
             player.hp -= self.dmg
             print(f"The {self.name} screamed deafeningly whilst throwing his arm at you")
+        
+    def fight(self, player):
+        while not self.dead or player.hp <= 0:
+            for weapon_name, weapon in player.weapons.items():
+                print(f"- {weapon}")
+            choice = input("Choose your weapon: ").lower()
+            weapon = player.weapons.get(choice)
+            weapon.use(self)
+            self.attack(player)
+            print(self.hp)
+            self.checkdead(player)
     
     def checkdead(self, player):
         if self.hp <= 0:
@@ -150,6 +203,17 @@ class Banshee:
             print(f"The {self.name} stabs your arm and holes remain where it attacked")
             player.hp -= self.dmg
     
+    def fight(self, player):
+        while not self.dead or player.hp <= 0:
+            for weapon_name, weapon in player.weapons.items():
+                print(f"- {weapon}")
+            choice = input("Choose your weapon: ").lower()
+            weapon = player.weapons.get(choice)
+            weapon.use(self)
+            self.attack(player)
+            print(self.hp)
+            self.checkdead(player)
+    
     def checkdead(self, player):
         if self.hp <= 0:
             self.dead = True
@@ -166,6 +230,17 @@ class Stalker:
     def attack(self, player):
         print(f"The {self.name} takes their Makarov and unloads a round into you")
         player.hp -= self.dmg
+    
+    def fight(self, player):
+        while not self.dead or player.hp <= 0:
+            for weapon_name, weapon in player.weapons.items():
+                print(f"- {weapon}")
+            choice = input("Choose your weapon: ").lower()
+            weapon = player.weapons.get(choice)
+            weapon.use(self)
+            self.attack(player)
+            print(self.hp)
+            self.checkdead(player)
     
     def checkdead(self, player):
         if self.hp <= 0:
@@ -191,6 +266,17 @@ class Wanderer:
         print(f"The {self.name} raises their shiv and slash you on your cheek")
         player.hp -= self.dmg
     
+    def fight(self, player):
+        while not self.dead or player.hp <= 0:
+            for weapon_name, weapon in player.weapons.items():
+                print(f"- {weapon}")
+            choice = input("Choose your weapon: ").lower()
+            weapon = player.weapons.get(choice)
+            weapon.use(self)
+            self.attack(player)
+            print(self.hp)
+            self.checkdead(player)
+    
     def checkdead(self, player):
         if self.hp <= 0:
             self.dead = True
@@ -213,6 +299,17 @@ class Wolfmann:
         else:
             player.hp -= self.claw
             print(f"The {self.name}'s claws leave a scar on your arm")
+    
+    def fight(self, player):
+        while not self.dead or player.hp <= 0:
+            for weapon_name, weapon in player.weapons.items():
+                print(f"- {weapon}")
+            choice = input("Choose your weapon: ").lower()
+            weapon = player.weapons.get(choice)
+            weapon.use(self)
+            self.attack(player)
+            print(self.hp)
+            self.checkdead(player)
     
     def checkdead(self, player):
         if self.hp <= 0:
@@ -239,6 +336,17 @@ class Captain:
             player.hp -= self.stab
             print(f"The {self.name} takes his knife and sinks it deep into your thigh")
     
+    def fight(self, player):
+        while not self.dead or player.hp <= 0:
+            for weapon_name, weapon in player.weapons.items():
+                print(f"- {weapon}")
+            choice = input("Choose your weapon: ").lower()
+            weapon = player.weapons.get(choice)
+            weapon.use(self)
+            self.attack(player)
+            print(self.hp)
+            self.checkdead(player)
+    
     def checkdead(self, player, tokarev):
         if self.hp <= 0:
             self.dead = True
@@ -263,6 +371,17 @@ class Leader:
         else:
             player.hp -= self.stab
             print(f"A shovel is whacked over your head by The {self.name}")
+    
+    def fight(self, player):
+        while not self.dead or player.hp <= 0:
+            for weapon_name, weapon in player.weapons.items():
+                print(f"- {weapon}")
+            choice = input("Choose your weapon: ").lower()
+            weapon = player.weapons.get(choice)
+            weapon.use(self)
+            self.attack(player)
+            print(self.hp)
+            self.checkdead(player)
     
     def checkdead(self, player, shovel):
         if self.hp <= 0:
@@ -289,10 +408,27 @@ class Doctor:
             player.hp -= self.slash
             print(f"You feel the {self.name}'s scalpel slash into your cheek")
     
+    def fight(self, player):
+        while not self.dead or player.hp <= 0:
+            for weapon_name, weapon in player.weapons.items():
+                print(f"- {weapon}")
+            choice = input("Choose your weapon: ").lower()
+            weapon = player.weapons.get(choice)
+            weapon.use(self)
+            self.attack(player)
+            print(self.hp)
+            self.checkdead(player)
+    
     def heal(self):
         heal = random.randint(1,10)
         if heal <= 3:
             self.hp += 20
+    
+    def checkdead(self, player):
+        if self.hp <= 0:
+            self.dead = True
+            print(f"You watch as The {self.name} drops dead to the floor")
+            player.ess += 20
         
 class Amalgamation:
     def __init__(self):
@@ -313,5 +449,24 @@ class Amalgamation:
                 player.stun = True
         else:
             player.hp -= self.slash
-            print(f"You feel the {self.name}'s scalpel slash into your cheek")
+            print(f"You feel the {self.name}'s whip of the branch")
+    
+    def checkdead(self, player):
+        if self.hp <= 0:
+            self.dead = True
+            print(f"You watch as The {self.name} begins to combust at no reason")
+            player.ess += 20
+    
+    def fight(self, player):
+        while not self.dead or player.hp <= 0:
+            for weapon_name, weapon in player.weapons.items():
+                print(f"- {weapon}")
+            choice = input("Choose your weapon: ").lower()
+            weapon = player.weapons.get(choice)
+            weapon.use(self)
+            self.attack(player)
+            print(self.hp)
+            self.checkdead(player)
+    
+
     

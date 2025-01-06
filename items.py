@@ -11,6 +11,9 @@ class Weapon:
     
     def inspect(self):
         print(f"You inspect your weapon and believe it has {self.dur} uses left in it")
+
+    def __str__(self):
+        return f"{self.name} (Damage: From {self.dmgLower} to {self.dmgUpper})"
     
     def repair(self, player):
         if "Repair Kit" in player.inv:
@@ -18,7 +21,7 @@ class Weapon:
         else:
             print(f"You open your rucksack looking for a Repair Kit but realise you never had one in the first place")
         
-    def attackent(self, enemy):
+    def use(self, enemy):
         self.dur -= self.durusage
         enemy.hp -= random.randint(self.dmgLower, self.dmgUpper)
         print(self.message(enemy))
@@ -32,3 +35,33 @@ class Heals:
     def use(self, player):
         print(self.msg)
         player.hp += self.heal
+
+class Armour:
+    def __init__(self, name, hpincrease):
+        self.name = name
+        self.increase = hpincrease
+    
+    def wear(self, player):
+        if len(player.armour) <=3:
+            print(f"You put on {self.name}")
+            player.maxhp += self.increase
+        else:
+            print("You realise that it will be too heavy to put on")
+        
+class HealArtifact:
+    def __init__(self, heal):
+        self.name = "Soul"
+        self.heal = heal
+
+    def use(self, player):
+        print("You feel an immense pulsing from the artifact couring through your hand")
+        player.hp += self.heal
+
+class DmgArtifact:
+    def __init__(self, dmgDone):
+        self.name = "Mica"
+        self.dmg = dmgDone
+    
+    def use(self, enemy):
+        print(f"An incredibly bright flash of light almost blinds you as it strikes the {enemy.name}")
+        enemy.hp -= self.dmg
