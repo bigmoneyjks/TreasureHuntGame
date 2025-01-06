@@ -29,34 +29,4 @@ MinerCap = Armour("Miner's Cap", 2)
 Mica = DmgArtifact(40)
 Soul = HealArtifact(50)
 
-SecretKey = Weapon("Bunker Key", (0,0), 100, 0, (0,0), lambda enemy: f"You pull out the key and {enemy.name} begins to laugh at you"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# player.pickup(Axe)
-# ghoul.fight(player)
-
-
-
-
-
-
+SecretKey = Weapon("Bunker Key", (0,0), 100, 0, (0,0), lambda enemy: f"You pull out the key and {enemy.name} begins to laugh at you")
