@@ -9,7 +9,8 @@ class Player:
         self.heals = {}
         self.armour = []
         self.ess = 0
-        self.loc = []
+        self.loc = ""
+        self.dead = False
         
     def pickup(self, item):
         if len(self.weapons) <= 7:
@@ -41,6 +42,18 @@ class Player:
             return
 
         weapon.use(enemy)
+    
+    def fight(self, enemy):
+        while not enemy.dead or not self.dead:
+            for weapon in self.weapons.items():
+                print(f"- {weapon}")
+            choice = input("Choose your weapon: ").lower()
+            weapon = self.weapons.get(choice)
+            self.attack(enemy, weapon)
+            print(f"The {enemy.name} has {enemy.hp} health left")
+            enemy.attack(self)
+            print(f"You have {self.hp} health left")
+            self.checkdead()
 
     def inspect(self):
         print(f"You have {self.hp} health points remaining...")
@@ -48,10 +61,10 @@ class Player:
     def move(self, where):
         self.loc = where.name
 
-
-    
-    # def move(self, location):
-    #     self.loc = location
+    def checkdead(self):
+        if self.hp <= 0:
+            self.dead = True
+            print("You feel the forest consume you into the ground")
 
 class Ghoul:
     def __init__(self):
