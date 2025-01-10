@@ -12,12 +12,11 @@ class Weapon:
     def inspect(self):
         print(f"You inspect your weapon and believe it has {self.dur} uses left in it")
 
-    def __str__(self):
-        return f"{self.name} (Damage: From {self.dmgLower} to {self.dmgUpper})"
-    
     def repair(self, player):
         if "Repair Kit" in player.inv:
             self.dur = self.maxdur
+            print(f"You patch up your {self.name}")
+            (player.inv).remove("Repair Kit")
         else:
             print(f"You open your rucksack looking for a Repair Kit but realise you never had one in the first place")
         
