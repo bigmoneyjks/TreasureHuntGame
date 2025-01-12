@@ -56,9 +56,6 @@ class Player:
 
     def inspect(self):
         print(f"You have {self.hp} health points remaining...")
-    
-    def move(self, where):
-        self.loc = where.name
 
     def checkdead(self):
         if self.hp <= 0:
